@@ -1,8 +1,3 @@
-% udsp user guide
-% Mansour Moufid
-% September 2013
-
-
 udsp is a small C library for spectral analysis and signal processing.
 
 udsp was written for research purposes;  it may be suitable for simple

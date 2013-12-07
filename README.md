@@ -11,7 +11,7 @@ Get udsp
 
 The latest version of udsp is available at the following address:
 
-<https://code.google.com/p/udsp/>
+<https://bitbucket.org/mansourm/udsp>
 
 
 Application programming interface

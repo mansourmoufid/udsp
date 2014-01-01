@@ -68,22 +68,21 @@ env.Append(LIBPATH='#/fftpack')
 
 udsp_src = ['fltop.c', 'udsp.c']
 udsp = env.StaticLibrary('udsp', udsp_src)
-libudsp = env.SharedLibrary('udsp', udsp_src)
 test_udsp = env.Program('test-udsp', udsp_src + ['test-udsp.c'])
 Depends('udsp.c', fftpack_defines)
 
 Export('env')
 
-Default([udsp, libudsp])
+Default([udsp,])
 
 basedir = os.path.join(env['DESTDIR'],
                        env['PREFIX'].lstrip(os.path.sep))
 libdir = os.path.join(basedir, 'lib')
 includedir = os.path.join(basedir, 'include')
 
-lib = env.Install(dir=libdir, source=libudsp)
+lib = env.Install(dir=libdir, source=udsp)
 h = env.Install(dir=includedir, source=['udsp.h'])
-env.AddPreAction(lib, Chmod(libudsp, 0755))
+env.AddPreAction(lib, Chmod(udsp, 0755))
 env.AddPreAction(h, Chmod('udsp.h', 0644))
 
 env.Alias('install', [libdir, includedir])

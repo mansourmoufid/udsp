@@ -18,6 +18,17 @@ AddOption('--destdir',
           metavar='DESTDIR', default='/',
           help='Install files into DESTDIR/PREFIX')
 
+c_headers = [
+    'assert.h',
+    'float.h',
+    'limits.h',
+    'math.h',
+    'stddef.h',
+    'stdint.h',
+    'stdio.h',
+    'stdlib.h',
+]
+
 conf = Configure(env)
 if os.environ.get('DESTDIR'):
     conf.env.Replace(DESTDIR=os.environ['DESTDIR'])
@@ -43,19 +54,10 @@ if conf.env.get('FORTRAN') in ['gfortran']:
     for option in ['-std=legacy']:
         if not option in conf.env.get('FORTRANFLAGS'):
             conf.env.Append(FORTRANFLAGS=' ' + option)
-if not conf.CheckCHeader('assert.h'):
-    Exit(1)
-if not conf.CheckCHeader('float.h'):
-    Exit(1)
-if not conf.CheckCHeader('limits.h'):
-    Exit(1)
+for header in c_headers:
+    if not conf.CheckCHeader(header):
+        Exit(1)
 if not conf.CheckLibWithHeader('m', 'math.h', 'c'):
-    Exit(1)
-if not conf.CheckCHeader('stddef.h'):
-    Exit(1)
-if not conf.CheckCHeader('stdint.h'):
-    Exit(1)
-if not conf.CheckCHeader('stdlib.h'):
     Exit(1)
 env = conf.Finish()
 

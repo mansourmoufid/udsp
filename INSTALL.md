@@ -1,7 +1,3 @@
-% udsp installation guide
-% Mansour Moufid
-% September 2013
-
 Building the udsp library requires standard C and Fortran compilers,
 and the [SCons][] build tool.
 

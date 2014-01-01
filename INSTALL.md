@@ -6,15 +6,12 @@ Unpack the udsp source code:
     $ gunzip < udsp-0.1.tar.gz | tar -xf -
     $ cd udsp-0.1/
 
-The udsp library consists of the files: `udsp.c`, `udsp.h`,
-`fltop.c`, and `fltop.h`.  Copy these files into your project.
-
 To test udsp:
 
     $ scons test
     $ ./test-udsp && echo Success!
 
-To build and install udsp as a shared library:
+To build and install the static library:
 
     $ scons install
 

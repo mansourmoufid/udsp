@@ -26,7 +26,7 @@ struct udsp_complex {
 typedef struct udsp_complex udsp_complex_t;
 
 #if !defined(UDSP_FFT_SIZE_MAX)
-#define UDSP_FFT_SIZE_MAX 65536
+#define UDSP_FFT_SIZE_MAX (64 * 1024)
 #endif
 
 struct _udsp_fft_state {

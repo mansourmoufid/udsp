@@ -1,5 +1,6 @@
 import os
 from os.path import basename
+
 from sconsutils import get_symbol_defines
 
 env = Environment()
@@ -10,14 +11,18 @@ env['GETSYMBOLDEFINES'] = {
     'RFFTB': 'rfftb',
 }
 
-AddOption('--prefix',
-          dest='prefix', type='string', nargs=1, action='store',
-          metavar='PREFIX', default='/usr/local',
-          help='Install files into PREFIX')
-AddOption('--destdir',
-          dest='destdir', type='string', nargs=1, action='store',
-          metavar='DESTDIR', default='/',
-          help='Install files into DESTDIR/PREFIX')
+AddOption(
+    '--prefix',
+    dest='prefix', type='string', nargs=1, action='store',
+    metavar='PREFIX', default='/usr/local',
+    help='Install files into PREFIX',
+)
+AddOption(
+    '--destdir',
+    dest='destdir', type='string', nargs=1, action='store',
+    metavar='DESTDIR', default='/',
+    help='Install files into DESTDIR/PREFIX',
+)
 
 c_headers = [
     'assert.h',
@@ -80,10 +85,12 @@ Depends('udsp.c', fftpack_defines)
 
 Export('env')
 
-Default([udsp,])
+Default([udsp])
 
-basedir = os.path.join(env['DESTDIR'],
-                       env['PREFIX'].lstrip(os.path.sep))
+basedir = os.path.join(
+    env['DESTDIR'],
+    env['PREFIX'].lstrip(os.path.sep),
+)
 libdir = os.path.join(basedir, 'lib')
 includedir = os.path.join(basedir, 'include')
 

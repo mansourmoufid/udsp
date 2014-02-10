@@ -1,4 +1,5 @@
 import os
+from os.path import basename
 from sconsutils import get_symbol_defines
 
 env = Environment()
@@ -45,11 +46,12 @@ if os.environ.get('PREFIX'):
     conf.env.Replace(PREFIX=os.environ['PREFIX'])
 else:
     conf.env.Replace(PREFIX=GetOption('prefix'))
-if os.environ.get('CC'):
+cc = basename(os.environ.get('CC', ''))
+if cc:
     conf.env.Replace(CC=os.environ['CC'])
 if os.environ.get('CFLAGS'):
     conf.env.MergeFlags({'CFLAGS': os.environ['CFLAGS'].split()})
-if conf.env.get('CC') in ['gcc', 'clang']:
+if cc in ['gcc', 'clang', 'ccc-analyzer']:
     conf.env.MergeFlags({'CFLAGS': default_cflags})
 if os.environ.get('FORTRAN'):
     conf.env.Replace(FORTRAN=os.environ['FORTRAN'])

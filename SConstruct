@@ -29,6 +29,13 @@ c_headers = [
     'stdlib.h',
 ]
 
+default_cflags = [
+    '-Wall',
+    '-Wextra',
+    '-pedantic',
+    '-std=c99',
+]
+
 conf = Configure(env)
 if os.environ.get('DESTDIR'):
     conf.env.Replace(DESTDIR=os.environ['DESTDIR'])
@@ -41,11 +48,9 @@ else:
 if os.environ.get('CC'):
     conf.env.Replace(CC=os.environ['CC'])
 if os.environ.get('CFLAGS'):
-    conf.env.Replace(CFLAGS=os.environ['CFLAGS'])
+    conf.env.MergeFlags({'CFLAGS': os.environ['CFLAGS'].split()})
 if conf.env.get('CC') in ['gcc', 'clang']:
-    for option in ['-Wall', '-Wextra', '-pedantic', '-std=c99']:
-        if not option in conf.env.get('CFLAGS'):
-            conf.env.Append(CFLAGS=' ' + option)
+    conf.env.MergeFlags({'CFLAGS': default_cflags})
 if os.environ.get('FORTRAN'):
     conf.env.Replace(FORTRAN=os.environ['FORTRAN'])
 if os.environ.get('FORTRANFLAGS'):

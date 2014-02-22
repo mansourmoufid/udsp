@@ -28,7 +28,7 @@
 #define TEST_INPUT_LENGTH 10
 #define REL_ERR_MAX 5e-2f
 
-float test_input[TEST_INPUT_LENGTH] = {
+static float test_input[TEST_INPUT_LENGTH] = {
      1.00000000f,
      2.00000000f,
      3.00000000f,
@@ -41,11 +41,11 @@ float test_input[TEST_INPUT_LENGTH] = {
     10.00000000f,
 };
 
-udsp_complex_t fft_output[TEST_INPUT_LENGTH];
-float conv_output[2 * TEST_INPUT_LENGTH];
-float xcov_output[2 * TEST_INPUT_LENGTH];
-float xcor_output[2 * TEST_INPUT_LENGTH];
-float pow_output[TEST_INPUT_LENGTH];
+static udsp_complex_t fft_output[TEST_INPUT_LENGTH];
+static float conv_output[2 * TEST_INPUT_LENGTH];
+static float xcov_output[2 * TEST_INPUT_LENGTH];
+static float xcor_output[2 * TEST_INPUT_LENGTH];
+static float pow_output[TEST_INPUT_LENGTH];
 
 #define N_FFT_TEST_CASES    4
 #define N_CONV_TEST_CASES   4
@@ -53,7 +53,7 @@ float pow_output[TEST_INPUT_LENGTH];
 #define N_XCOR_TEST_CASES   4
 #define N_POW_TEST_CASES    4
 
-udsp_complex_t fft_test_cases[][TEST_INPUT_LENGTH] = {
+static udsp_complex_t fft_test_cases[][TEST_INPUT_LENGTH] = {
     {{  1.00000000f,   0.00000000f}},
     {{  3.00000000f,   0.00000000f},
      { -1.00000000f,   0.00000000f}},
@@ -66,7 +66,7 @@ udsp_complex_t fft_test_cases[][TEST_INPUT_LENGTH] = {
      { -2.00000000f,  -2.00000000f}},
 };
 
-float conv_test_cases[][2 * TEST_INPUT_LENGTH] = {
+static float conv_test_cases[][2 * TEST_INPUT_LENGTH] = {
     {  1.00000000f,
        2.00000000f,
        3.00000000f,
@@ -115,7 +115,7 @@ float conv_test_cases[][2 * TEST_INPUT_LENGTH] = {
       40.00000000f,},
 };
 
-float xcov_test_cases[][2 * TEST_INPUT_LENGTH] = {
+static float xcov_test_cases[][2 * TEST_INPUT_LENGTH] = {
     {  0.10000000f,
        0.20000000f,
        0.30000000f,
@@ -164,7 +164,7 @@ float xcov_test_cases[][2 * TEST_INPUT_LENGTH] = {
        1.00000000f,},
 };
 
-float xcor_test_cases[][2 * TEST_INPUT_LENGTH] = {
+static float xcor_test_cases[][2 * TEST_INPUT_LENGTH] = {
     {  0.00000000f,
        0.00000000f,
        0.00000000f,
@@ -213,7 +213,7 @@ float xcor_test_cases[][2 * TEST_INPUT_LENGTH] = {
       -0.67500000f,},
 };
 
-float pow_test_cases[][TEST_INPUT_LENGTH] = {
+static float pow_test_cases[][TEST_INPUT_LENGTH] = {
     {  1.00000000f,},
     {  1.00000000f,
        0.11111111f,},
@@ -343,7 +343,7 @@ static void test_fft_shift(void)
     return;
 }
 
-void test_conv(void)
+static void test_conv(void)
 {
     udsp_state_t *st;
     size_t i, m, n;
@@ -372,7 +372,7 @@ void test_conv(void)
     return;
 }
 
-void test_xcov(void)
+static void test_xcov(void)
 {
     udsp_state_t *st;
     size_t i, m, n;
@@ -401,7 +401,7 @@ void test_xcov(void)
     return;
 }
 
-void test_xcor(void)
+static void test_xcor(void)
 {
     udsp_state_t *st;
     size_t i, m, n;
@@ -430,7 +430,7 @@ void test_xcor(void)
     return;
 }
 
-void test_pow(void)
+static void test_pow(void)
 {
     udsp_state_t *st;
     size_t i, n;

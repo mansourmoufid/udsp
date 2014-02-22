@@ -553,7 +553,7 @@ CONV_FAMILY_PROTO(udsp_conv)
  * Cross-covariance
  */
 
-CONV_FAMILY_PROTO(time_domain_reverse)
+static CONV_FAMILY_PROTO(time_domain_reverse)
 {
     assert(st != NULL);
     assert(st[1].fft_state.rbuf != NULL);
@@ -567,7 +567,7 @@ CONV_FAMILY_PROTO(time_domain_reverse)
     return;
 }
 
-CONV_FAMILY_PROTO(time_domain_normalize)
+static CONV_FAMILY_PROTO(time_domain_normalize)
 {
     assert(st != NULL);
     assert(st[0].fft_state.rbuf != NULL);
@@ -624,7 +624,7 @@ static inline void demean_real(float *restrict x, const size_t n)
     return;
 }
 
-CONV_FAMILY_PROTO(time_domain_demean)
+static CONV_FAMILY_PROTO(time_domain_demean)
 {
     assert(st != NULL);
     assert(m > 0);

@@ -46,6 +46,8 @@ typedef struct udsp_state udsp_state_t;
 
 #define UDSP_FFT_FFTPACK 1
 
+size_t udsp_fft_max_size(void);
+
 void udsp_fft_init(udsp_state_t *restrict,
     const int, const size_t);
 

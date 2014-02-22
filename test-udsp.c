@@ -234,7 +234,7 @@ static float l2norm(float *x, size_t n)
     for (i = 0; i < n; i++) {
         sum = flt_add(sum, flt_mul(x[i], x[i]));
     }
-    return sqrt(sum);
+    return sqrtf(sum);
 }
 
 static float rel_err(float *x, float *y, size_t n)

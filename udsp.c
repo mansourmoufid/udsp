@@ -23,8 +23,8 @@
  * Common helper functions
  */
 
-static inline void swap_complex(udsp_complex_t *restrict x,
-    udsp_complex_t *restrict y)
+static inline void
+swap_complex(udsp_complex_t *restrict x, udsp_complex_t *restrict y)
 {
     udsp_complex_t tmp;
     assert(x != NULL);
@@ -38,7 +38,8 @@ static inline void swap_complex(udsp_complex_t *restrict x,
     return;
 }
 
-static inline void swap_real(float *restrict x, float *restrict y)
+static inline void
+swap_real(float *restrict x, float *restrict y)
 {
     float tmp;
     assert(x != NULL);
@@ -49,30 +50,32 @@ static inline void swap_real(float *restrict x, float *restrict y)
     return;
 }
 
-#define DEFINE_REVERSE_FN(NAME, TYPE, SWAP)                 \
-        static inline void NAME(TYPE *x, const size_t n)    \
-        {                                                   \
-            size_t i, l;                                    \
-            assert(x != NULL);                              \
-            if (n % 2 == 0) {                               \
-                l = n / 2;                                  \
-            } else {                                        \
-                l = (n + 1) / 2;                            \
-            }                                               \
-            if (l < 1) {                                    \
-                return;                                     \
-            }                                               \
-            for (i = 0; i < l; i++) {                       \
-                SWAP(&x[i], &x[(n - 1) - i]);               \
-            }                                               \
-            return;                                         \
+#define DEFINE_REVERSE_FN(NAME, TYPE, SWAP)     \
+        static inline void                      \
+        NAME(TYPE *x, const size_t n)           \
+        {                                       \
+            size_t i, l;                        \
+            assert(x != NULL);                  \
+            if (n % 2 == 0) {                   \
+                l = n / 2;                      \
+            } else {                            \
+                l = (n + 1) / 2;                \
+            }                                   \
+            if (l < 1) {                        \
+                return;                         \
+            }                                   \
+            for (i = 0; i < l; i++) {           \
+                SWAP(&x[i], &x[(n - 1) - i]);   \
+            }                                   \
+            return;                             \
         }
 
 DEFINE_REVERSE_FN(reverse_complex, udsp_complex_t, swap_complex)
 DEFINE_REVERSE_FN(reverse_real, float, swap_real)
 
-static void circ_shift_complex(udsp_complex_t *restrict x,
-    const size_t n, const size_t l)
+static void
+circ_shift_complex(udsp_complex_t *restrict x, const size_t n,
+    const size_t l)
 {
     assert(x != NULL);
     assert(n > l);
@@ -88,18 +91,20 @@ static void circ_shift_complex(udsp_complex_t *restrict x,
     return;
 }
 
-static inline size_t min(const size_t x, const size_t y)
+static inline size_t
+min(const size_t x, const size_t y)
 {
     return (x < y) ? x : y;
 }
 
-static inline size_t max(const size_t x, const size_t y)
+static inline size_t
+max(const size_t x, const size_t y)
 {
     return (x > y) ? x : y;
 }
 
-static inline void copy_real(float *restrict dst,
-    const float *restrict src, const size_t n)
+static inline void
+copy_real(float *restrict dst, const float *restrict src, const size_t n)
 {
     size_t i;
     for (i = 0; i < n; i++) {
@@ -108,7 +113,8 @@ static inline void copy_real(float *restrict dst,
     return;
 }
 
-static inline void copy_complex(udsp_complex_t *restrict dst,
+static inline void
+copy_complex(udsp_complex_t *restrict dst,
     const udsp_complex_t *restrict src, const size_t n)
 {
     size_t i;
@@ -119,8 +125,8 @@ static inline void copy_complex(udsp_complex_t *restrict dst,
     return;
 }
 
-static inline void zero_real(float *restrict x,
-    const size_t n)
+static inline void
+zero_real(float *restrict x, const size_t n)
 {
     size_t i;
     for (i = 0; i < n; i++) {
@@ -129,8 +135,8 @@ static inline void zero_real(float *restrict x,
     return;
 }
 
-static inline void zero_complex(udsp_complex_t *restrict x,
-    const size_t n)
+static inline void
+zero_complex(udsp_complex_t *restrict x, const size_t n)
 {
     size_t i;
     for (i = 0; i < n; i++) {
@@ -140,8 +146,8 @@ static inline void zero_complex(udsp_complex_t *restrict x,
     return;
 }
 
-static inline void normalize_real(float *restrict x,
-    const size_t n, const float denom)
+static inline void
+normalize_real(float *restrict x, const size_t n, const float denom)
 {
     size_t i;
     for (i = 0; i < n; i++) {
@@ -150,8 +156,9 @@ static inline void normalize_real(float *restrict x,
     return;
 }
 
-static inline void mul_complex(udsp_complex_t *result,
-    const udsp_complex_t *x, const udsp_complex_t *y)
+static inline void
+mul_complex(udsp_complex_t *result, const udsp_complex_t *x,
+    const udsp_complex_t *y)
 {
     float a, b, c, d;
     assert(result != NULL);
@@ -167,7 +174,8 @@ static inline void mul_complex(udsp_complex_t *result,
 }
 
 #if 0
-static void dump_real(float *x, size_t n)
+static void
+dump_real(float *x, size_t n)
 {
     size_t i;
     for (i = 0; i < n; i++) {
@@ -176,7 +184,8 @@ static void dump_real(float *x, size_t n)
     return;
 }
 
-static void dump_complex(udsp_complex_t *x, size_t n)
+static void
+dump_complex(udsp_complex_t *x, size_t n)
 {
     size_t i;
     for (i = 0; i < n; i++) {
@@ -195,7 +204,8 @@ static void dump_complex(udsp_complex_t *x, size_t n)
 #endif
 void RFFTI(const size_t *, float *restrict);
 
-static void fftpack_fft_init(struct _udsp_fft_state *restrict st)
+static void
+fftpack_fft_init(struct _udsp_fft_state *restrict st)
 {
     assert(st != NULL);
     assert(st->size > 0);
@@ -204,8 +214,8 @@ static void fftpack_fft_init(struct _udsp_fft_state *restrict st)
     return;
 }
 
-static void fft_init(udsp_state_t *restrict st,
-    const int fft_method, const size_t l,
+static void
+fft_init(udsp_state_t *restrict st, const int fft_method, const size_t l,
     const float *restrict x, const size_t n)
 {
     struct _udsp_fft_state *fft_st;
@@ -236,8 +246,9 @@ static void fft_init(udsp_state_t *restrict st,
     return;
 }
 
-void udsp_fft_init(udsp_state_t *restrict st,
-    const int fft_method, const size_t n)
+void
+udsp_fft_init(udsp_state_t *restrict st, const int fft_method,
+    const size_t n)
 {
     assert(st != NULL);
     assert(fft_method == UDSP_FFT_FFTPACK);
@@ -255,7 +266,8 @@ void udsp_fft_init(udsp_state_t *restrict st,
 #define UDSP_FFT_DEFAULT UDSP_FFT_FFTPACK
 #endif
 
-size_t udsp_fft_max_size(void)
+size_t
+udsp_fft_max_size(void)
 {
     return UDSP_FFT_SIZE_MAX;
 }
@@ -265,8 +277,9 @@ size_t udsp_fft_max_size(void)
 #endif
 void RFFTF(const size_t *, float *restrict, float *restrict);
 
-static void fftpack_unpack(const float *restrict in,
-    udsp_complex_t *restrict out, const size_t n)
+static void
+fftpack_unpack(const float *restrict in, udsp_complex_t *restrict out,
+    const size_t n)
 {
     size_t i, j, l;
     assert(in != NULL);
@@ -296,7 +309,8 @@ static void fftpack_unpack(const float *restrict in,
     return;
 }
 
-static void fftpack_fft(struct _udsp_fft_state *restrict st)
+static void
+fftpack_fft(struct _udsp_fft_state *restrict st)
 {
     assert(st != NULL);
     assert(st->size > 0);
@@ -306,7 +320,8 @@ static void fftpack_fft(struct _udsp_fft_state *restrict st)
     return;
 }
 
-void udsp_fft(udsp_state_t *restrict st,
+void
+udsp_fft(udsp_state_t *restrict st,
     const float *restrict x, const size_t n,
     udsp_complex_t *restrict result)
 {
@@ -342,8 +357,9 @@ void udsp_fft(udsp_state_t *restrict st,
 #endif
 void RFFTB(const size_t *, float *restrict, float *restrict);
 
-static void fftpack_pack(const udsp_complex_t *restrict in,
-    float *restrict out, const size_t n)
+static void
+fftpack_pack(const udsp_complex_t *restrict in, float *restrict out,
+    const size_t n)
 {
     size_t i, j, l;
     assert(in != NULL);
@@ -368,7 +384,8 @@ static void fftpack_pack(const udsp_complex_t *restrict in,
     return;
 }
 
-static void fftpack_ifft(struct _udsp_fft_state *restrict st)
+static void
+fftpack_ifft(struct _udsp_fft_state *restrict st)
 {
     assert(st != NULL);
     assert(st->size > 0);
@@ -379,7 +396,8 @@ static void fftpack_ifft(struct _udsp_fft_state *restrict st)
     return;
 }
 
-void udsp_ifft(udsp_state_t *restrict st,
+void
+udsp_ifft(udsp_state_t *restrict st,
     const udsp_complex_t *restrict x, const size_t n,
     float *restrict result)
 {
@@ -410,7 +428,8 @@ void udsp_ifft(udsp_state_t *restrict st,
  * Circular shift
  */
 
-void udsp_fft_shift(udsp_complex_t *restrict x, const size_t n)
+void
+udsp_fft_shift(udsp_complex_t *restrict x, const size_t n)
 {
     assert(x != NULL);
     assert(n > 0);
@@ -422,7 +441,8 @@ void udsp_fft_shift(udsp_complex_t *restrict x, const size_t n)
     return;
 }
 
-void udsp_ifft_shift(udsp_complex_t *restrict x, const size_t n)
+void
+udsp_ifft_shift(udsp_complex_t *restrict x, const size_t n)
 {
     assert(x != NULL);
     assert(n > 0);
@@ -444,15 +464,16 @@ typedef void (*conv_step_t)(udsp_state_t *restrict,
             float *restrict);
 
 #define CONV_FAMILY_PROTO(NAME)                         \
-        void NAME(udsp_state_t st[2],                   \
+        void                                            \
+        NAME(udsp_state_t st[2],                        \
             const float *restrict x, const size_t m,    \
             const float *restrict y, const size_t n,    \
             float *restrict result)
 
 #define CONV_STEPS_MAX 4
 
-static inline void exec_conv_steps(const conv_step_t steps[],
-    udsp_state_t st[2],
+static inline void
+exec_conv_steps(const conv_step_t steps[], udsp_state_t st[2],
     const float *restrict x, const size_t m,
     const float *restrict y, const size_t n,
     float *restrict result)
@@ -473,7 +494,8 @@ static inline void exec_conv_steps(const conv_step_t steps[],
 #define CONV_PRE_IFFT    2
 #define CONV_POST_IFFT   3
 
-static inline void fft_mul(struct _udsp_fft_state *restrict st1,
+static inline void
+fft_mul(struct _udsp_fft_state *restrict st1,
     struct _udsp_fft_state *restrict st2)
 {
     size_t i;
@@ -489,7 +511,8 @@ static inline void fft_mul(struct _udsp_fft_state *restrict st1,
     return;
 }
 
-static void conv(udsp_state_t st[2],
+static void
+conv(udsp_state_t st[2],
     const float *restrict x, const size_t m,
     const float *restrict y, const size_t n,
     float *restrict result,
@@ -553,7 +576,8 @@ CONV_FAMILY_PROTO(udsp_conv)
  * Cross-covariance
  */
 
-static CONV_FAMILY_PROTO(time_domain_reverse)
+static
+CONV_FAMILY_PROTO(time_domain_reverse)
 {
     assert(st != NULL);
     assert(st[1].fft_state.rbuf != NULL);
@@ -567,7 +591,8 @@ static CONV_FAMILY_PROTO(time_domain_reverse)
     return;
 }
 
-static CONV_FAMILY_PROTO(time_domain_normalize)
+static
+CONV_FAMILY_PROTO(time_domain_normalize)
 {
     assert(st != NULL);
     assert(st[0].fft_state.rbuf != NULL);
@@ -613,7 +638,8 @@ CONV_FAMILY_PROTO(udsp_xcov)
  * Cross-correlation
  */
 
-static inline void demean_real(float *restrict x, const size_t n)
+static inline void
+demean_real(float *restrict x, const size_t n)
 {
     float mean;
     size_t i;
@@ -624,7 +650,8 @@ static inline void demean_real(float *restrict x, const size_t n)
     return;
 }
 
-static CONV_FAMILY_PROTO(time_domain_demean)
+static
+CONV_FAMILY_PROTO(time_domain_demean)
 {
     assert(st != NULL);
     assert(m > 0);
@@ -663,8 +690,8 @@ CONV_FAMILY_PROTO(udsp_xcor)
  * Periodogram
  */
 
-static void square_complex(udsp_complex_t *result,
-    const udsp_complex_t *x)
+static void
+square_complex(udsp_complex_t *result, const udsp_complex_t *x)
 {
     float a, b;
     a = x->real;
@@ -674,7 +701,8 @@ static void square_complex(udsp_complex_t *result,
     return;
 }
 
-static inline void fft_square(struct _udsp_fft_state *restrict st)
+static inline void
+fft_square(struct _udsp_fft_state *restrict st)
 {
     size_t i;
     assert(st != NULL);
@@ -686,7 +714,8 @@ static inline void fft_square(struct _udsp_fft_state *restrict st)
     return;
 }
 
-void udsp_pow(udsp_state_t *st,
+void
+udsp_pow(udsp_state_t *st,
     const float *restrict x, const size_t n,
     float *restrict result)
 {

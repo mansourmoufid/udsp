@@ -27,6 +27,7 @@ AddOption(
 c_headers = [
     'assert.h',
     'float.h',
+    'inttypes.h',
     'limits.h',
     'math.h',
     'stddef.h',
@@ -80,7 +81,7 @@ env.Append(LIBPATH='#/fftpack')
 
 udsp_src = ['fltop.c', 'udsp.c']
 udsp = env.StaticLibrary('udsp', udsp_src)
-test_udsp = env.Program('test-udsp', udsp_src + ['test-udsp.c'])
+test_udsp = env.Program('test-udsp', udsp_src + ['test-udsp.c', 'nclock.c'])
 Depends('udsp.c', fftpack_defines)
 
 Export('env')

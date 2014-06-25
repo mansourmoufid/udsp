@@ -14,12 +14,15 @@
  */
 
 #include <assert.h>
+#include <inttypes.h>
 #include <math.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "fltop.h"
+#include "nclock.h"
 #include "udsp.h"
 
 #define COMPLEX_EQUALS(x, y) \
@@ -469,14 +472,31 @@ test_pow(void)
     return;
 }
 
+typedef void (*test_fn_t)(void);
+
+static test_fn_t test_fns[] = {
+    test_fft,
+    test_fft_shift,
+    test_conv,
+    test_xcov,
+    test_xcor,
+    test_pow,
+};
+
+static size_t n_test_fns = sizeof(test_fns) / sizeof(test_fn_t);
+
 int
 main(void)
 {
-    test_fft();
-    test_fft_shift();
-    test_conv();
-    test_xcov();
-    test_xcor();
-    test_pow();
+    size_t i;
+    uint64_t t;
+
+    for (i = 0; i < n_test_fns; i++) {
+        nclock_init(&t);
+        test_fns[i]();
+        nclock_elapsed(&t);
+        printf("%" PRIu64 "\n", t);
+    }
+
     return 0;
 }

@@ -230,18 +230,6 @@ static float pow_test_cases[][TEST_INPUT_LENGTH] = {
 };
 
 static float
-l2norm(float *x, size_t n)
-{
-    float sum;
-    size_t i;
-    sum = 0.f;
-    for (i = 0; i < n; i++) {
-        sum = flt_add(sum, flt_mul(x[i], x[i]));
-    }
-    return sqrtf(sum);
-}
-
-static float
 rel_err(float *x, float *y, size_t n)
 {
     float err;
@@ -249,7 +237,7 @@ rel_err(float *x, float *y, size_t n)
     for (i = 0; i < n; i++) {
         x[i] -= y[i];
     }
-    err = flt_div(l2norm(x, n), l2norm(y, n));
+    err = flt_div(flt_l2norm(x, n), flt_l2norm(y, n));
     return err;
 }
 

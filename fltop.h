@@ -1,4 +1,4 @@
-/* Copyright 2013, Mansour Moufid <mansourmoufid@gmail.com>
+/* Copyright 2013, 2014, Mansour Moufid <mansourmoufid@gmail.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -41,5 +41,6 @@ float flt_add(const float, const float);
 float flt_mul(const float, const float);
 float flt_div(const float, const float);
 float flt_sum(const float *restrict, const size_t);
+float flt_l2norm(const float *restrict x, const size_t n);
 
 #endif

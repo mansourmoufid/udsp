@@ -1,4 +1,4 @@
-/* Copyright 2013, Mansour Moufid <mansourmoufid@gmail.com>
+/* Copyright 2013, 2014, Mansour Moufid <mansourmoufid@gmail.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,6 +14,7 @@
  */
 
 #include <limits.h>
+#include <math.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -26,7 +27,8 @@
 /* 01111111 11110000 00000000 00000000 ... */
 #define NAND ((uint64_t) 9218868437227405312ULL)
 
-static inline int isnand(const double x)
+static inline int
+isnand(const double x)
 {
     uint64_t o;
     o = *((const uint64_t *) &x);
@@ -36,7 +38,8 @@ static inline int isnand(const double x)
     return 0;
 }
 
-static int isreald(const double x)
+static int
+isreald(const double x)
 {
     return !isnand(x);
 }
@@ -44,7 +47,8 @@ static int isreald(const double x)
 /* 01111111 10000000 00000000 00000000 */
 #define NANF ((uint32_t) 2139095040ULL)
 
-static inline int isnanf(const float x)
+static inline int
+isnanf(const float x)
 {
     uint32_t q;
     q = *((const uint32_t *) &x);
@@ -54,12 +58,14 @@ static inline int isnanf(const float x)
     return 0;
 }
 
-static int isrealf(const float x)
+static int
+isrealf(const float x)
 {
     return !isnanf(x);
 }
 
-int flt_isreal(const float x)
+int
+flt_isreal(const float x)
 {
     return !isnanf(x);
 }
@@ -67,7 +73,8 @@ int flt_isreal(const float x)
 /* 01111111 11111111 11111111 11111111 ... */
 #define SIGND ((uint64_t) 9223372036854775807ULL)
 
-static inline double absd(const double x)
+static inline double
+absd(const double x)
 {
     uint64_t o;
     o = *((uint64_t *) &x);
@@ -78,7 +85,8 @@ static inline double absd(const double x)
 /* 01111111 11111111 11111111 11111111 */
 #define SIGNF ((uint32_t) 2147483647ULL)
 
-static inline float absf(const float x)
+static inline float
+absf(const float x)
 {
     uint32_t q;
     q = *((uint32_t *) &x);
@@ -86,22 +94,26 @@ static inline float absf(const float x)
     return *((float *) &q);
 }
 
-float flt_abs(const float x)
+float
+flt_abs(const float x)
 {
     return absf(x);
 }
 
-static inline int iszerod(const double x)
+static inline int
+iszerod(const double x)
 {
     return (absd(x) < (double) FLTOP_EPS);
 }
 
-static inline int iszerof(const float x)
+static inline int
+iszerof(const float x)
 {
     return (absf(x) < (float) FLTOP_EPS);
 }
 
-int flt_iszero(const float x)
+int
+flt_iszero(const float x)
 {
     return (isrealf(x) && iszerof(x));
 }
@@ -145,17 +157,20 @@ static inline int sgn(const float x)
     }
 }
 
-static inline float fsgn(const float x)
+static inline float
+fsgn(const float x)
 {
     return (float) sgn(x);
 }
 
-int flt_sgn(const float x)
+int
+flt_sgn(const float x)
 {
     return sgn(x);
 }
 
-static inline float dtof(const double x)
+static inline float
+dtof(const double x)
 {
     if (!isreald(x)) {
         return FLTOP_NAN_RETURN;
@@ -169,7 +184,8 @@ static inline float dtof(const double x)
     }
 }
 
-float flt_add(const float x, const float y)
+float
+flt_add(const float x, const float y)
 {
     if (!isrealf(x) || !isrealf(y)) {
         return FLTOP_NAN_RETURN;
@@ -185,7 +201,8 @@ float flt_add(const float x, const float y)
     }
 }
 
-float flt_mul(const float x, const float y)
+float
+flt_mul(const float x, const float y)
 {
     if (!isrealf(x) || !isrealf(y)) {
         return FLTOP_NAN_RETURN;
@@ -199,7 +216,8 @@ float flt_mul(const float x, const float y)
     }
 }
 
-static inline float inv(const float x)
+static inline float
+inv(const float x)
 {
     if (iszerof(x)) {
         if (x < 0.f) {
@@ -214,7 +232,8 @@ static inline float inv(const float x)
     }
 }
 
-float flt_div(const float x, const float y)
+float
+flt_div(const float x, const float y)
 {
     if (!isrealf(x) || !isrealf(y)) {
         return FLTOP_NAN_RETURN;
@@ -222,7 +241,8 @@ float flt_div(const float x, const float y)
     return flt_mul(x, inv(y));
 }
 
-float flt_sum(const float *restrict x, const size_t n)
+float
+flt_sum(const float *restrict x, const size_t n)
 {
     float sum;
     size_t i;
@@ -233,4 +253,20 @@ float flt_sum(const float *restrict x, const size_t n)
         }
     }
     return sum;
+}
+
+float
+flt_l2norm(const float *restrict x, const size_t n)
+{
+    float square, sum, norm;
+    size_t i;
+    sum = 0.f;
+    for (i = 0; i < n; i++) {
+        if (isrealf(x[i])) {
+            square = flt_mul(x[i], x[i]);
+            sum = flt_add(sum, square);
+        }
+    }
+    norm = sqrtf(sum);
+    return norm;
 }

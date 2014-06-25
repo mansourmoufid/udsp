@@ -226,7 +226,8 @@ static float pow_test_cases[][TEST_INPUT_LENGTH] = {
        0.08000000f,},
 };
 
-static float l2norm(float *x, size_t n)
+static float
+l2norm(float *x, size_t n)
 {
     float sum;
     size_t i;
@@ -237,7 +238,8 @@ static float l2norm(float *x, size_t n)
     return sqrtf(sum);
 }
 
-static float rel_err(float *x, float *y, size_t n)
+static float
+rel_err(float *x, float *y, size_t n)
 {
     float err;
     size_t i;
@@ -249,7 +251,8 @@ static float rel_err(float *x, float *y, size_t n)
 }
 
 #if 0
-static void dump_real(float *x, size_t n)
+static void
+dump_real(float *x, size_t n)
 {
     size_t i;
     for (i = 0; i < n; i++) {
@@ -258,7 +261,8 @@ static void dump_real(float *x, size_t n)
     return;
 }
 
-static void dump_complex(udsp_complex_t *x, size_t n)
+static void
+dump_complex(udsp_complex_t *x, size_t n)
 {
     size_t i;
     for (i = 0; i < n; i++) {
@@ -268,7 +272,8 @@ static void dump_complex(udsp_complex_t *x, size_t n)
 }
 #endif
 
-static void fill_junk(void *x, const size_t n)
+static void
+fill_junk(void *x, const size_t n)
 {
     const char junk[] = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5};
     char *p = x;
@@ -279,7 +284,8 @@ static void fill_junk(void *x, const size_t n)
     return;
 }
 
-static void test_fft(void)
+static void
+test_fft(void)
 {
     udsp_state_t *st;
     size_t i, j, n;
@@ -312,7 +318,8 @@ static void test_fft(void)
     return;
 }
 
-static void test_fft_shift(void)
+static void
+test_fft_shift(void)
 {
     udsp_state_t *st;
     size_t i, j, n;
@@ -343,7 +350,8 @@ static void test_fft_shift(void)
     return;
 }
 
-static void test_conv(void)
+static void
+test_conv(void)
 {
     udsp_state_t *st;
     size_t i, m, n;
@@ -372,7 +380,8 @@ static void test_conv(void)
     return;
 }
 
-static void test_xcov(void)
+static void
+test_xcov(void)
 {
     udsp_state_t *st;
     size_t i, m, n;
@@ -401,7 +410,8 @@ static void test_xcov(void)
     return;
 }
 
-static void test_xcor(void)
+static void
+test_xcor(void)
 {
     udsp_state_t *st;
     size_t i, m, n;
@@ -430,7 +440,8 @@ static void test_xcor(void)
     return;
 }
 
-static void test_pow(void)
+static void
+test_pow(void)
 {
     udsp_state_t *st;
     size_t i, n;
@@ -458,7 +469,8 @@ static void test_pow(void)
     return;
 }
 
-int main(void)
+int
+main(void)
 {
     test_fft();
     test_fft_shift();

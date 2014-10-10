@@ -144,7 +144,8 @@ DECL_COND_FN(lt, delta < 0. && !iszerod(delta))
  * Floating-point arithmetic
  */
 
-static inline int sgn(const float x)
+static inline int
+sgn(const float x)
 {
     if (!isrealf(x)) {
         return 0;
@@ -178,7 +179,7 @@ dtof(const double x)
     if (iszerod(x)) {
         return 0.f;
     } else if (x > (double) FLT_MAX - FLTOP_EPS) {
-        return (FLT_MAX * fsgn(x));
+        return (FLT_MAX * fsgn((float) x));
     } else {
         return ((float) x);
     }

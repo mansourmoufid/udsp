@@ -45,9 +45,7 @@ if os.environ.get('FORTRAN'):
 if os.environ.get('FORTRANFLAGS'):
     conf.env.Replace(FORTRANFLAGS=os.environ['FORTRANFLAGS'])
 if conf.env.get('FORTRAN') in ['gfortran']:
-    for option in ['-std=legacy']:
-        if not option in conf.env.get('FORTRANFLAGS'):
-            conf.env.Append(FORTRANFLAGS=' ' + option)
+    conf.env.MergeFlags({'FORTRANFLAGS': ['-std=legacy']})
 if os.environ.get('ARCHFLAGS'):
     conf.env.MergeFlags({'CFLAGS': os.environ['ARCHFLAGS'].split()})
     conf.env.MergeFlags({'FORTRANFLAGS': os.environ['ARCHFLAGS'].split()})

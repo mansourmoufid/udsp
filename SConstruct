@@ -3,7 +3,7 @@ from os.path import basename
 
 from sconsutils import get_symbol_defines
 
-env = Environment()
+env = Environment(ENV=os.environ)
 env['BUILDERS']['SymDefines'] = Builder(action=get_symbol_defines)
 env['GETSYMBOLDEFINES'] = {
     'RFFTI': 'rffti',

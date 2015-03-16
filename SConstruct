@@ -11,19 +11,6 @@ env['GETSYMBOLDEFINES'] = {
     'RFFTB': 'rfftb',
 }
 
-AddOption(
-    '--prefix',
-    dest='prefix', type='string', nargs=1, action='store',
-    metavar='PREFIX', default='/usr/local',
-    help='Install files into PREFIX',
-)
-AddOption(
-    '--destdir',
-    dest='destdir', type='string', nargs=1, action='store',
-    metavar='DESTDIR', default='/',
-    help='Install files into DESTDIR/PREFIX',
-)
-
 c_headers = [
     'assert.h',
     'float.h',
@@ -44,14 +31,6 @@ default_cflags = [
 ]
 
 conf = Configure(env)
-if os.environ.get('DESTDIR'):
-    conf.env.Replace(DESTDIR=os.environ['DESTDIR'])
-else:
-    conf.env.Replace(DESTDIR=GetOption('destdir'))
-if os.environ.get('PREFIX'):
-    conf.env.Replace(PREFIX=os.environ['PREFIX'])
-else:
-    conf.env.Replace(PREFIX=GetOption('prefix'))
 cc = basename(os.environ.get('CC', ''))
 if cc:
     conf.env.Replace(CC=os.environ['CC'])
@@ -90,19 +69,6 @@ Depends('udsp.c', fftpack_defines)
 
 Export('env')
 
-Default([udsp])
+Default([test_udsp])
 
-basedir = os.path.join(
-    env['DESTDIR'],
-    env['PREFIX'].lstrip(os.path.sep),
-)
-libdir = os.path.join(basedir, 'lib')
-includedir = os.path.join(basedir, 'include')
-
-lib = env.Install(dir=libdir, source=udsp)
-h = env.Install(dir=includedir, source=['udsp.h'])
-env.AddPreAction(lib, Chmod(udsp, 0755))
-env.AddPreAction(h, Chmod('udsp.h', 0644))
-
-env.Alias('install', [libdir, includedir])
 env.Alias('test', [test_udsp])

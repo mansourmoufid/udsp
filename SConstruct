@@ -38,6 +38,8 @@ if os.environ.get('CFLAGS'):
     conf.env.MergeFlags({'CFLAGS': os.environ['CFLAGS'].split()})
 if cc in ['gcc', 'clang', 'ccc-analyzer']:
     conf.env.MergeFlags({'CFLAGS': default_cflags})
+if cc in ['clang']:
+    conf.env.MergeFlags({'CFLAGS': '-Weverything'})
 if os.environ.get('FORTRAN'):
     conf.env.Replace(FORTRAN=os.environ['FORTRAN'])
 if os.environ.get('FORTRANFLAGS'):

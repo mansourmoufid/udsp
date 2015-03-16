@@ -67,6 +67,10 @@ if conf.env.get('FORTRAN') in ['gfortran']:
     for option in ['-std=legacy']:
         if not option in conf.env.get('FORTRANFLAGS'):
             conf.env.Append(FORTRANFLAGS=' ' + option)
+if os.environ.get('ARCHFLAGS'):
+    conf.env.MergeFlags({'CFLAGS': os.environ['ARCHFLAGS'].split()})
+    conf.env.MergeFlags({'FORTRANFLAGS': os.environ['ARCHFLAGS'].split()})
+    conf.env.MergeFlags({'LINKFLAGS': os.environ['ARCHFLAGS'].split()})
 for header in c_headers:
     if not conf.CheckCHeader(header):
         Exit(1)

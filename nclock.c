@@ -18,9 +18,12 @@
 #endif
 
 #include <assert.h>
+#include <stddef.h>
 #include <stdint.h>
 #if defined(__linux__)
 #include <time.h>
+#elif defined(__APPLE__) && defined(__MACH__)
+#include <mach/mach_time.h>
 #endif
 
 #include "nclock.h"
@@ -56,11 +59,34 @@ success:
 }
 #endif
 
+#if defined(__APPLE__) && defined(__MACH__)
+static int
+nclock_init_mach(uint64_t *timer)
+{
+    static mach_timebase_info_data_t tb_info = {
+        .numer = 0,
+        .denom = 0,
+    };
+    uint64_t abs_time;
+    assert(timer != NULL);
+    abs_time = mach_absolute_time();
+    if (tb_info.denom == 0) {
+        (void) mach_timebase_info(&tb_info);
+    }
+    *timer = abs_time;
+    *timer /= tb_info.denom;
+    *timer *= tb_info.numer;
+    return 0;
+}
+#endif
+
 int
 nclock_init(uint64_t *timer)
 {
 #if defined(__linux__)
     return nclock_init_linux(timer);
+#elif defined(__APPLE__) && defined(__MACH__)
+    return nclock_init_mach(timer);
 #else
     (void) timer;
     return 1;

@@ -23,12 +23,15 @@ c_headers = [
     'stdlib.h',
 ]
 
-default_cflags = [
-    '-Wall',
-    '-Wextra',
-    '-pedantic',
-    '-std=c99',
-]
+default_flags = {
+    'CFLAGS': [
+        '-Wall',
+        '-Wextra',
+        '-pedantic',
+        '-std=c99',
+        '-fno-builtin',
+    ],
+}
 
 conf = Configure(env)
 cc = basename(os.environ.get('CC', ''))
@@ -37,7 +40,7 @@ if cc:
 if os.environ.get('CFLAGS'):
     conf.env.MergeFlags({'CFLAGS': os.environ['CFLAGS'].split()})
 if cc in ['gcc', 'clang', 'ccc-analyzer']:
-    conf.env.MergeFlags({'CFLAGS': default_cflags})
+    conf.env.MergeFlags(default_flags)
 if cc in ['clang']:
     conf.env.MergeFlags({'CFLAGS': '-Weverything'})
 if os.environ.get('FORTRAN'):

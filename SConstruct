@@ -37,12 +37,12 @@ conf = Configure(env)
 cc = basename(os.environ.get('CC', ''))
 if cc:
     conf.env.Replace(CC=os.environ['CC'])
-if os.environ.get('CFLAGS'):
-    conf.env.MergeFlags({'CFLAGS': os.environ['CFLAGS'].split()})
 if cc in ['gcc', 'clang', 'ccc-analyzer']:
     conf.env.MergeFlags(default_flags)
 if cc in ['clang']:
     conf.env.MergeFlags({'CFLAGS': '-Weverything'})
+for flags in ['CPPFLAGS', 'CFLAGS']:
+    conf.env.MergeFlags({flags: os.environ.get(flags, '').split()})
 if os.environ.get('FORTRAN'):
     conf.env.Replace(FORTRAN=os.environ['FORTRAN'])
 if os.environ.get('FORTRANFLAGS'):

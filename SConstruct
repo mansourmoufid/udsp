@@ -49,10 +49,8 @@ if os.environ.get('FORTRANFLAGS'):
     conf.env.Replace(FORTRANFLAGS=os.environ['FORTRANFLAGS'])
 if conf.env.get('FORTRAN') in ['gfortran']:
     conf.env.MergeFlags({'FORTRANFLAGS': ['-std=legacy']})
-if os.environ.get('ARCHFLAGS'):
-    conf.env.MergeFlags({'CFLAGS': os.environ['ARCHFLAGS'].split()})
-    conf.env.MergeFlags({'FORTRANFLAGS': os.environ['ARCHFLAGS'].split()})
-    conf.env.MergeFlags({'LINKFLAGS': os.environ['ARCHFLAGS'].split()})
+for flags in ['CFLAGS', 'FORTRANFLAGS', 'LINKFLAGS']:
+    conf.env.MergeFlags({flags: os.environ.get('ARCHFLAGS', '').split()})
 for header in c_headers:
     if not conf.CheckCHeader(header):
         Exit(1)

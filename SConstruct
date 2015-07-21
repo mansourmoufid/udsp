@@ -32,6 +32,13 @@ default_flags = {
     ],
 }
 
+debug_flags = {
+    'CFLAGS': [
+        '-g',
+        '-O0',
+    ],
+}
+
 conf = Configure(env)
 cc = basename(os.environ.get('CC', ''))
 if cc:
@@ -54,6 +61,8 @@ for header in c_headers:
 if not conf.CheckLibWithHeader('m', 'math.h', 'c'):
     Exit(1)
 env = conf.Finish()
+debug_env = env.Clone()
+debug_env.MergeFlags(debug_flags)
 
 fftpack = SConscript(['fftpack/SConscript'], exports='env')
 fftpack_defines = env.SymDefines(None, fftpack, env)
@@ -62,7 +71,8 @@ env.Append(LIBPATH='#/fftpack')
 
 udsp_src = ['fltop.c', 'udsp.c']
 udsp = env.StaticLibrary('udsp', udsp_src)
-test_udsp = env.Program('test-udsp', udsp_src + ['test-udsp.c', 'nclock.c'])
+test_udsp = debug_env.Program('test-udsp', ['test-udsp.c', 'nclock.c'],
+                              LIBS=[fftpack, udsp, 'm'])
 Depends('udsp.c', fftpack_defines)
 
 Export('env')

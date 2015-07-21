@@ -1,4 +1,4 @@
-/* Copyright 2014, Mansour Moufid <mansourmoufid@gmail.com>
+/* Copyright 2014, 2015, Mansour Moufid <mansourmoufid@gmail.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,7 +14,7 @@
  */
 
 #if !defined(_POSIX_C_SOURCE)
-#define _POSIX_C_SOURCE 200112L
+#define _POSIX_C_SOURCE 200809L
 #endif
 
 #include <assert.h>

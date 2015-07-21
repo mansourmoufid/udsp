@@ -29,7 +29,6 @@ default_flags = {
         '-Wextra',
         '-pedantic',
         '-std=c99',
-        '-fno-builtin',
     ],
 }
 

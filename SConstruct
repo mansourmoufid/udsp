@@ -45,8 +45,6 @@ for flags in ['CPPFLAGS', 'CFLAGS']:
     conf.env.MergeFlags({flags: os.environ.get(flags, '').split()})
 if os.environ.get('FORTRAN'):
     conf.env.Replace(FORTRAN=os.environ['FORTRAN'])
-if os.environ.get('FORTRANFLAGS'):
-    conf.env.Replace(FORTRANFLAGS=os.environ['FORTRANFLAGS'])
 if conf.env.get('FORTRAN') in ['gfortran']:
     conf.env.MergeFlags({'FORTRANFLAGS': ['-std=legacy']})
 for flags in ['CFLAGS', 'FORTRANFLAGS', 'LINKFLAGS']:

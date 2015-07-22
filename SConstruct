@@ -1,5 +1,6 @@
 import os
 from os.path import basename
+from platform import system
 
 from sconsutils import get_symbol_defines
 
@@ -60,19 +61,22 @@ for header in c_headers:
         Exit(1)
 if not conf.CheckLibWithHeader('m', 'math.h', 'c'):
     Exit(1)
+libs = ['m']
+if system() == 'Linux':
+    libs += ['rt']
 env = conf.Finish()
 debug_env = env.Clone()
 debug_env.MergeFlags(debug_flags)
 
 fftpack = SConscript(['fftpack/SConscript'], exports='env')
 fftpack_defines = env.SymDefines(None, fftpack, env)
-env.Append(LIBS=[fftpack, 'm'])
+env.Append(LIBS=libs)
 env.Append(LIBPATH='#/fftpack')
 
 udsp_src = ['fltop.c', 'udsp.c']
 udsp = env.StaticLibrary('udsp', udsp_src)
 test_udsp = debug_env.Program('test-udsp', ['test-udsp.c', 'nclock.c'],
-                              LIBS=[fftpack, udsp, 'm'])
+                              LIBS=libs + [fftpack, udsp])
 Depends('udsp.c', fftpack_defines)
 
 Export('env')

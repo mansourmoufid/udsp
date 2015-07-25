@@ -1,5 +1,7 @@
 udsp is a small C library for spectral analysis and signal processing.
 
+[![](https://travis-ci.org/eliteraspberries/udsp.svg)][build-status]
+
 udsp was written for research purposes;  it may be suitable for simple
 or embedded applications.
 
@@ -174,3 +176,6 @@ License
 =======
 
 See the file named LICENSE for copyright information.
+
+
+[build-status]: https://travis-ci.org/eliteraspberries/udsp

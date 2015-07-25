@@ -202,7 +202,7 @@ dump_complex(udsp_complex_t *x, size_t n)
 #if !defined(RFFTI)
 #define RFFTI rffti_
 #endif
-void RFFTI(const size_t *, float *restrict);
+extern void RFFTI(const size_t *, float *restrict);
 
 static void
 fftpack_fft_init(struct _udsp_fft_state *restrict st)
@@ -275,7 +275,7 @@ udsp_fft_max_size(void)
 #if !defined(RFFTF)
 #define RFFTF rfftf_
 #endif
-void RFFTF(const size_t *, float *restrict, float *restrict);
+extern void RFFTF(const size_t *, float *restrict, float *restrict);
 
 static void
 fftpack_unpack(const float *restrict in, udsp_complex_t *restrict out,
@@ -355,7 +355,7 @@ udsp_fft(udsp_state_t *restrict st,
 #if !defined(RFFTB)
 #define RFFTB rfftb_
 #endif
-void RFFTB(const size_t *, float *restrict, float *restrict);
+extern void RFFTB(const size_t *, float *restrict, float *restrict);
 
 static void
 fftpack_pack(const udsp_complex_t *restrict in, float *restrict out,

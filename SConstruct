@@ -62,22 +62,20 @@ for header in c_headers:
         Exit(1)
 if not conf.CheckLibWithHeader('m', 'math.h', 'c'):
     Exit(1)
-libs = ['m']
-if system() == 'Linux':
-    libs += ['rt']
+librt = ['rt'] if system() == 'Linux' else []
 env = conf.Finish()
 debug_env = env.Clone()
 debug_env.MergeFlags(debug_flags)
 
 fftpack = SConscript(['fftpack/SConscript'], exports='env')
 fftpack_defines = env.SymDefines(None, fftpack, env)
-env.Append(LIBS=libs)
 env.Append(LIBPATH='#/fftpack')
 
 udsp_src = ['fltop.c', 'udsp.c']
 udsp = env.StaticLibrary('udsp', udsp_src)
-test_udsp = debug_env.Program('test-udsp', ['test-udsp.c', 'nclock.c'],
-                              LIBS=libs + [fftpack, udsp])
+nclock = env.Object('nclock.c', LIBS=librt)
+test_udsp = debug_env.Program('test-udsp', ['test-udsp.c', nclock],
+                              LIBS=[fftpack, udsp, 'm'])
 Depends('udsp.c', fftpack_defines)
 
 Export('env')

@@ -2,3 +2,6 @@
 config.log
 *.o
 *.pyc
+*.gcov
+*.gcda
+*.gcno

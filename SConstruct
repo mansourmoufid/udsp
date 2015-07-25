@@ -71,8 +71,7 @@ fftpack = SConscript(['fftpack/SConscript'], exports='env')
 fftpack_defines = env.SymDefines(None, fftpack, env)
 env.Append(LIBPATH='#/fftpack')
 
-udsp_src = ['fltop.c', 'udsp.c']
-udsp = env.StaticLibrary('udsp', udsp_src)
+udsp = env.StaticLibrary('udsp', ['fltop.c', 'udsp.c'])
 nclock = env.Object('nclock.c', LIBS=librt)
 test_udsp = debug_env.Program('test-udsp', ['test-udsp.c', nclock],
                               LIBS=[fftpack, udsp, 'm'])

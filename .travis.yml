@@ -8,6 +8,15 @@ script:
   - scons
   - scons test
   - ./test-udsp
+  - scons test --clean
+  - scons --clean
+  - export CFLAGS="-coverage -g -O0 $CFLAGS"
+  - export LDFLAGS="-coverage $LDFLAGS"
+  - scons test
+  - ./test-udsp
+  - gcov udsp.c
 compiler:
   - clang
   - gcc
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

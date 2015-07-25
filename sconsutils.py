@@ -43,6 +43,7 @@ def get_symbol_defines(target, source, env):
             if sym.strip('_') == desired_symbols[name]:
                 defines[name] = sym.lstrip('_')
     env.Append(CPPDEFINES=defines)
+    print defines
     return None
 
 

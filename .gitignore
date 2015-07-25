@@ -1,3 +1,4 @@
 .scon*
 config.log
 *.o
+*.pyc

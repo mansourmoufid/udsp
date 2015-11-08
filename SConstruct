@@ -1,5 +1,4 @@
 import os
-from os.path import basename
 from platform import system
 
 from sconsutils import get_symbol_defines
@@ -41,7 +40,7 @@ debug_flags = {
 }
 
 conf = Configure(env)
-cc = basename(os.environ.get('CC', ''))
+cc = os.path.basename(os.environ.get('CC', ''))
 if cc:
     conf.env.Replace(CC=os.environ['CC'])
 if cc in ['gcc', 'clang', 'ccc-analyzer']:

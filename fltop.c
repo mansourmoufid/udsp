@@ -1,4 +1,4 @@
-/* Copyright 2013, 2014, Mansour Moufid <mansourmoufid@gmail.com>
+/* Copyright 2013-2015, Mansour Moufid <mansourmoufid@gmail.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -21,6 +21,54 @@
 #include "fltop.h"
 
 /*
+ * Word conversion
+ */
+
+static inline uint64_t
+dtoi(const double x)
+{
+    union {
+        uint64_t i;
+        double d;
+    } u;
+    u.d = x;
+    return u.i;
+}
+
+static inline double
+itod(const uint64_t x)
+{
+    union {
+        uint64_t i;
+        double d;
+    } u;
+    u.i = x;
+    return u.d;
+}
+
+static inline uint32_t
+ftoi(const float x)
+{
+    union {
+        uint32_t i;
+        float f;
+    } u;
+    u.f = x;
+    return u.i;
+}
+
+static inline float
+itof(const uint32_t x)
+{
+    union {
+        uint32_t i;
+        float f;
+    } u;
+    u.i = x;
+    return u.f;
+}
+
+/*
  * Value testing
  */
 
@@ -30,9 +78,7 @@
 static inline int
 isnand(const double x)
 {
-    uint64_t o;
-    o = *((const uint64_t *) &x);
-    if ((o & NAND) == NAND) {
+    if ((dtoi(x) & NAND) == NAND) {
         return 1;
     }
     return 0;
@@ -50,9 +96,7 @@ isreald(const double x)
 static inline int
 isnanf(const float x)
 {
-    uint32_t q;
-    q = *((const uint32_t *) &x);
-    if ((q & NANF) == NANF) {
+    if ((ftoi(x) & NANF) == NANF) {
         return 1;
     }
     return 0;
@@ -76,10 +120,7 @@ flt_isreal(const float x)
 static inline double
 absd(const double x)
 {
-    uint64_t o;
-    o = *((uint64_t *) &x);
-    o = o & SIGND;
-    return *((double *) &o);
+    return itod(dtoi(x) & SIGND);
 }
 
 /* 01111111 11111111 11111111 11111111 */
@@ -88,10 +129,7 @@ absd(const double x)
 static inline float
 absf(const float x)
 {
-    uint32_t q;
-    q = *((uint32_t *) &x);
-    q = q & SIGNF;
-    return *((float *) &q);
+    return itof(ftoi(x) & SIGNF);
 }
 
 float

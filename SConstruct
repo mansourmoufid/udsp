@@ -35,6 +35,12 @@ default_flags = {
     ]
 }
 
+darwin_flags = {
+    'CPPDEFINES': [
+        ('_DARWIN_C_SOURCE', '1'),
+    ],
+}
+
 debug_flags = {
     'CFLAGS': [
         '-g',
@@ -64,6 +70,8 @@ for header in c_headers:
         Exit(1)
 if not conf.CheckLibWithHeader('m', 'math.h', 'c'):
     Exit(1)
+if system() == 'Darwin':
+    conf.env.MergeFlags(darwin_flags)
 librt = ['rt'] if system() == 'Linux' else []
 env = conf.Finish()
 debug_env = env.Clone()

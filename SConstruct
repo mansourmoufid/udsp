@@ -30,6 +30,9 @@ default_flags = {
         '-pedantic',
         '-std=c99',
     ],
+    'CPPDEFINES': [
+        ('_POSIX_C_SOURCE', '200809L'),
+    ]
 }
 
 debug_flags = {

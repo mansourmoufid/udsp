@@ -72,6 +72,11 @@ if not conf.CheckLibWithHeader('m', 'math.h', 'c'):
     Exit(1)
 if system() == 'Darwin':
     conf.env.MergeFlags(darwin_flags)
+    if not conf.CheckCHeader('mach/mach_time.h'):
+        Exit(1)
+if system() == 'Linux':
+    if not conf.CheckCHeader('time.h'):
+        Exit(1)
 librt = ['rt'] if system() == 'Linux' else []
 env = conf.Finish()
 debug_env = env.Clone()

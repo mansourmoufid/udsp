@@ -1,22 +1,21 @@
 language: c
-before_install:
-  - sudo apt-get update -qq
-install:
-  - sudo apt-get install -y gfortran scons
+compiler:
+  - clang
+  - gcc
+sudo: false
+addons:
+  apt:
+    packages:
+      - gfortran
+      - scons
 script:
-  - scons --clean
-  - scons
   - scons test
   - ./test-udsp
   - scons test --clean
-  - scons --clean
   - export CFLAGS="-coverage -g -O0 $CFLAGS"
   - export LDFLAGS="-coverage $LDFLAGS"
   - scons test
   - ./test-udsp
   - gcov udsp.c
-compiler:
-  - clang
-  - gcc
 after_success:
   - bash <(curl -s https://codecov.io/bash) -g './test-*'

@@ -72,24 +72,6 @@ itof(const uint32_t x)
  * Value testing
  */
 
-/* 01111111 11110000 00000000 00000000 ... */
-#define NAND ((uint64_t) 9218868437227405312ULL)
-
-static inline int
-isnand(const double x)
-{
-    if ((dtoi(x) & NAND) == NAND) {
-        return 1;
-    }
-    return 0;
-}
-
-static int
-isreald(const double x)
-{
-    return !isnand(x);
-}
-
 /* 01111111 10000000 00000000 00000000 */
 #define NANF ((uint32_t) 2139095040ULL)
 
@@ -206,21 +188,6 @@ int
 flt_sgn(const float x)
 {
     return sgn(x);
-}
-
-static inline float
-dtof(const double x)
-{
-    if (!isreald(x)) {
-        return FLTOP_NAN_RETURN;
-    }
-    if (iszerod(x)) {
-        return 0.f;
-    } else if (x > (double) FLT_MAX - FLTOP_EPS) {
-        return (FLT_MAX * fsgn((float) x));
-    } else {
-        return ((float) x);
-    }
 }
 
 float

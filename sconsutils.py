@@ -9,8 +9,9 @@ NM_MATCH = '(.+)\[(.*)\]: ([a-zA-Z0-9_]+) ([abdtABDTU]{1}) '
 NM_MATCH += '([0-9a-fA-F]+) ([0-9a-fA-f]+)'
 
 
-def symbols(file):
-    nm_command = ['nm', '-A', '-P', basename(file)]
+def symbols(file, nm):
+    nm = nm or 'nm'
+    nm_command = [nm, '-A', '-P', basename(file)]
     p = Popen(nm_command, stdin=None, stdout=_PIPE, shell=False)
     out, err = p.communicate()
     for line in out.split('\n'):
@@ -26,14 +27,17 @@ def symbols(file):
             yield symbol
 
 
-def global_text_symbols(file):
+def global_text_symbols(file, nm):
     global_text = lambda symbol: symbol['type'] == 'T'
-    return filter(global_text, symbols(file))
+    return filter(global_text, symbols(file, nm))
 
 
 def get_symbol_defines(target, source, env):
     source_file = str(source[0])
-    defined_symbols = global_text_symbols(source_file)
+    defined_symbols = global_text_symbols(
+        source_file,
+        nm=env.get('NM', None),
+    )
     nameof = lambda sym: sym['name']
     defined_symbol_names = map(nameof, defined_symbols)
     desired_symbols = env.get('GETSYMBOLDEFINES', [])

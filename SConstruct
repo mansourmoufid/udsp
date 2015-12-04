@@ -49,9 +49,10 @@ debug_flags = {
 }
 
 conf = Configure(env)
-cc = os.path.basename(os.environ.get('CC', ''))
-if cc:
-    conf.env.Replace(CC=os.environ['CC'])
+for var in ['AR', 'CC', 'FORTRAN', 'NM', 'RANLIB']:
+    if os.environ.get(var, None):
+        name = os.path.basename(os.environ[var])
+        conf.env.Replace(**{var: name})
 if conf.env['CC'] in ['gcc', 'clang', 'ccc-analyzer']:
     conf.env.MergeFlags(default_flags)
 if conf.env['CC'] in ['clang']:

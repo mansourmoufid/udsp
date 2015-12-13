@@ -66,9 +66,8 @@ if conf.env['FORTRAN'] in ['gfortran']:
 for flags in ['CFLAGS', 'FORTRANFLAGS', 'LINKFLAGS']:
     conf.env.MergeFlags({flags: os.environ.get('ARCHFLAGS', '').split()})
 conf.env.MergeFlags({'LINKFLAGS': os.environ.get('LDFLAGS', '').split()})
-for header in c_headers:
-    if not conf.CheckCHeader(header):
-        Exit(1)
+if not all(map(conf.CheckCHeader, c_headers)):
+    Exit(1)
 if not conf.CheckLibWithHeader('m', 'math.h', 'c'):
     Exit(1)
 if system() == 'Darwin':

@@ -35,7 +35,7 @@ int flt_ge(const float, const float);
 int flt_gt(const float, const float);
 int flt_le(const float, const float);
 int flt_lt(const float, const float);
-int flt_sgn(const float);
+float flt_sgn(const float);
 float flt_abs(const float);
 float flt_add(const float, const float);
 float flt_mul(const float, const float);

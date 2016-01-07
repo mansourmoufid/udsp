@@ -164,30 +164,24 @@ DECL_COND_FN(lt, delta < 0. && !iszerod(delta))
  * Floating-point arithmetic
  */
 
-static inline int
-sgn(const float x)
-{
-    if (!isrealf(x)) {
-        return 0;
-    } else if (iszerof(x)) {
-        return 0;
-    } else if (x < 0.f) {
-        return -1;
-    } else {
-        return 1;
-    }
-}
-
 static inline float
 fsgn(const float x)
 {
-    return (float) sgn(x);
+    if (!isrealf(x)) {
+        return 0.f;
+    } else if (iszerof(x)) {
+        return 0.f;
+    } else if (x < 0.f) {
+        return -1.f;
+    } else {
+        return 1.f;
+    }
 }
 
-int
+float
 flt_sgn(const float x)
 {
-    return sgn(x);
+    return fsgn(x);
 }
 
 float
@@ -196,7 +190,7 @@ flt_add(const float x, const float y)
     if (!isrealf(x) || !isrealf(y)) {
         return FLTOP_NAN_RETURN;
     }
-    if (sgn(x) == sgn(y)) {
+    if ((x > 0.f && y > 0.f) || (x < 0.f && y < 0.f)) {
         if (absf(x) < FLT_MAX - absf(y)) {
             return (x + y);
         } else {

@@ -94,6 +94,8 @@ Depends('udsp.c', fftpack_defines)
 
 Export('env')
 
-Default([test_udsp])
+tests = [test_udsp]
+all = [udsp] + tests
 
-env.Alias('test', [test_udsp])
+Default(all)
+env.Alias('all', all)

@@ -9,13 +9,11 @@ addons:
       - gfortran
       - scons
 script:
-  - scons test
-  - ./test-udsp
-  - scons test --clean
+  - scons all
+  - scons check
+after_success:
   - export CFLAGS="-coverage -g -O0 $CFLAGS"
   - export LDFLAGS="-coverage $LDFLAGS"
-  - scons test
-  - ./test-udsp
+  - scons check
   - gcov udsp.c
-after_success:
   - bash <(curl -s https://codecov.io/bash) -g './test-*'

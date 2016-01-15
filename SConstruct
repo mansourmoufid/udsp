@@ -103,10 +103,12 @@ fftpack_defines = env.SymDefines(None, fftpack, env)
 env.Append(LIBPATH='#/fftpack')
 
 udsp = env.StaticLibrary('udsp', ['fltop.c', 'udsp.c'])
-nclock = env.Object('nclock.c')
-test_udsp = debug_env.Program('test-udsp', ['test-udsp.c', nclock],
-                              LIBS=[udsp, fftpack] + ['m'] + librt)
-Depends('udsp.c', fftpack_defines)
+Depends(udsp, fftpack_defines)
+test_udsp = debug_env.Program(
+    'test-udsp',
+    ['test-udsp.c', 'nclock.c'],
+    LIBS=[udsp, fftpack] + ['m'] + librt,
+)
 
 Export('env')
 

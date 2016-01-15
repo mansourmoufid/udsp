@@ -67,17 +67,16 @@ debug_flags = {
 conf = Configure(env)
 for var in ['AR', 'CC', 'FORTRAN', 'NM', 'RANLIB']:
     if os.environ.get(var, None):
-        name = os.path.basename(os.environ[var])
-        conf.env.Replace(**{var: name})
-if conf.env['CC'] in ['gcc', 'clang', 'ccc-analyzer']:
+        conf.env.Replace(**{var: os.environ[var]})
+cc = os.path.basename(conf.env['CC'])
+if cc in ['gcc', 'clang', 'ccc-analyzer']:
     conf.env.MergeFlags(default_flags)
-if conf.env['CC'] in ['clang']:
+if cc in ['clang']:
     conf.env.MergeFlags({'CFLAGS': '-Weverything'})
 for flags in ['CPPFLAGS', 'CFLAGS', 'FORTRANFLAGS']:
     conf.env.MergeFlags({flags: os.environ.get(flags, '').split()})
-if os.environ.get('FORTRAN'):
-    conf.env.Replace(FORTRAN=os.environ['FORTRAN'])
-if conf.env['FORTRAN'] in ['gfortran']:
+fortran = os.path.basename(conf.env['FORTRAN'])
+if fortran in ['gfortran']:
     conf.env.MergeFlags({'FORTRANFLAGS': ['-std=legacy']})
 for flags in ['CFLAGS', 'FORTRANFLAGS', 'LINKFLAGS']:
     conf.env.MergeFlags({flags: os.environ.get('ARCHFLAGS', '').split()})

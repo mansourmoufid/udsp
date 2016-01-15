@@ -1,7 +1,23 @@
+from __future__ import print_function
 import os
 from platform import system
+import subprocess
 
 from sconsutils import get_symbol_defines
+
+def run(target, source, env):
+    tgt = str(target.pop().abspath)
+    for src in source:
+        src = str(src.abspath)
+        print(os.path.basename(src), end=': ')
+        with open(tgt, 'w+') as log:
+            p = subprocess.Popen(src, stdout=log, stderr=log, shell=True)
+            p.wait()
+        if p.returncode == 0:
+            print('pass')
+        else:
+            print('fail')
+            Exit(1)
 
 env = Environment(ENV=os.environ)
 env['BUILDERS']['SymDefines'] = Builder(action=get_symbol_defines)
@@ -99,3 +115,7 @@ all = [udsp] + tests
 
 Default(all)
 env.Alias('all', all)
+
+check = Command('check.log', tests, run)
+AlwaysBuild(check)
+env.Alias('check', check)

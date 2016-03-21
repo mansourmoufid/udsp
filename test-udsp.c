@@ -353,7 +353,7 @@ test_conv(void)
     float *conv_test;
     float err;
 
-    st = malloc(2 * sizeof(udsp_state_t));
+    st = calloc(2, sizeof(udsp_state_t));
     if (st == NULL) {
         exit(1);
     }
@@ -384,7 +384,7 @@ test_xcov(void)
     float *xcov_test;
     float err;
 
-    st = malloc(2 * sizeof(udsp_state_t));
+    st = calloc(2, sizeof(udsp_state_t));
     if (st == NULL) {
         exit(1);
     }
@@ -415,7 +415,7 @@ test_xcor(void)
     float *xcor_test;
     float err;
 
-    st = malloc(2 * sizeof(udsp_state_t));
+    st = calloc(2, sizeof(udsp_state_t));
     if (st == NULL) {
         exit(1);
     }

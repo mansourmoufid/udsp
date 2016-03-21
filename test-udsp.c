@@ -307,6 +307,7 @@ test_fft(void)
     }
 
     free(st);
+    st = NULL;
 
     return;
 }
@@ -339,6 +340,7 @@ test_fft_shift(void)
     }
 
     free(st);
+    st = NULL;
 
     return;
 }
@@ -369,6 +371,7 @@ test_conv(void)
     }
 
     free(st);
+    st = NULL;
 
     return;
 }
@@ -399,6 +402,7 @@ test_xcov(void)
     }
 
     free(st);
+    st = NULL;
 
     return;
 }
@@ -429,6 +433,7 @@ test_xcor(void)
     }
 
     free(st);
+    st = NULL;
 
     return;
 }
@@ -458,6 +463,7 @@ test_pow(void)
     }
 
     free(st);
+    st = NULL;
 
     return;
 }

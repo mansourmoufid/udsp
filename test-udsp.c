@@ -280,9 +280,9 @@ fill_junk(void *x, const size_t n)
 static void
 test_fft(void)
 {
-    udsp_state_t *st;
+    udsp_state_t *st = NULL;
     size_t i, j, n;
-    udsp_complex_t *fft_test;
+    udsp_complex_t *fft_test = NULL;
 
     st = malloc(sizeof(udsp_state_t));
     if (st == NULL) {
@@ -315,9 +315,9 @@ test_fft(void)
 static void
 test_fft_shift(void)
 {
-    udsp_state_t *st;
+    udsp_state_t *st = NULL;
     size_t i, j, n;
-    udsp_complex_t *fft_test;
+    udsp_complex_t *fft_test = NULL;
 
     st = malloc(sizeof(udsp_state_t));
     if (st == NULL) {
@@ -348,9 +348,9 @@ test_fft_shift(void)
 static void
 test_conv(void)
 {
-    udsp_state_t *st;
+    udsp_state_t *st = NULL;
     size_t i, m, n;
-    float *conv_test;
+    float *conv_test = NULL;
     float err;
 
     st = calloc(2, sizeof(udsp_state_t));
@@ -379,9 +379,9 @@ test_conv(void)
 static void
 test_xcov(void)
 {
-    udsp_state_t *st;
+    udsp_state_t *st = NULL;
     size_t i, m, n;
-    float *xcov_test;
+    float *xcov_test = NULL;
     float err;
 
     st = calloc(2, sizeof(udsp_state_t));
@@ -410,9 +410,9 @@ test_xcov(void)
 static void
 test_xcor(void)
 {
-    udsp_state_t *st;
+    udsp_state_t *st = NULL;
     size_t i, m, n;
-    float *xcor_test;
+    float *xcor_test = NULL;
     float err;
 
     st = calloc(2, sizeof(udsp_state_t));
@@ -441,9 +441,9 @@ test_xcor(void)
 static void
 test_pow(void)
 {
-    udsp_state_t *st;
+    udsp_state_t *st = NULL;
     size_t i, n;
-    float *pow_test;
+    float *pow_test = NULL;
     float err;
 
     st = malloc(sizeof(udsp_state_t));
